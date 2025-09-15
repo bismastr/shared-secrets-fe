@@ -1,18 +1,19 @@
-function App() {
+import React from "react";
+import { GroupChat } from "./components/chat/GroupChat";
+import { QuestionCard } from "./components/common/QuestionCard";
+import { AppLayout } from "./components/layout/AppLayout";
+import { sampleAnswers } from "./data/sampleData";
 
+const App: React.FC = () => {
     return (
-        <div className="flex items-center justify-center w-screen h-screen bg-gray-200">
-            <div className="flex flex-col w-full max-w-[420px] h-full overflow-auto bg-white shadow-lg ">
-                <div className="p-4">
-                    <div className="bg-white rounded-4xl shadow-sm min-h-[200px] p-4 flex items-center justify-center">
-                        <p className="text-red-600 font-bold text-2xl text-center">WHAT DO YOU REGRET THE MOST?</p>
-                    </div>
-                </div>
-
-                <div className="p-4">Group Chat</div>
-            </div>
-        </div>
+        <AppLayout>
+            <QuestionCard 
+                question="What do you regret the most" 
+                className="mb-4"
+            />
+            <GroupChat answers={sampleAnswers} />
+        </AppLayout>
     );
-}
+};
 
 export default App;
