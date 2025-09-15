@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 import apiClient from '../apiClient';
 
-// Types
 export interface Card {
     id: string;
     question: string;
@@ -10,7 +9,6 @@ export interface Card {
     updatedAt: string;
 }
 
-// Generic API response type
 export interface ApiResponse<T> {
     data: T;
     meta?: {
@@ -20,12 +18,26 @@ export interface ApiResponse<T> {
     };
 }
 
-// Specific error types for better error handling
+
 export interface ApiError {
     message: string;
     statusCode?: number;
     error?: unknown;
     code?: string;
+}
+
+export interface VoteCount {
+    emoticon: string;
+    count: number;
+}
+
+export interface Answer {
+    id: string;
+    cardId: string;
+    answerText: string;
+    createdAt: string;
+    updatedAt: string;
+    voteCounts: VoteCount[];
 }
 
 apiClient.interceptors.response.use(
@@ -56,6 +68,23 @@ export const getFeaturedCards = async (): Promise<Card[]> => {
             code: axiosError.code
         };
         console.error('Featured cards fetch error:', apiError);
+        throw apiError;
+    }
+}
+
+export const getAnswerByCardId = async (cardId: string): Promise<Answer[]> => {
+    try {
+        const response = await apiClient.get<Answer[] | ApiResponse<Answer[]>>(`/answers/${cardId}`);
+        return Array.isArray(response.data) ? response.data : response.data.data;
+    } catch (error) {
+        const axiosError = error as AxiosError;
+        const apiError: ApiError = {
+            message: `Failed to fetch answers for card ID: ${cardId}`,
+            statusCode: axiosError.response?.status,
+            error: axiosError.response?.data || axiosError.message,
+            code: axiosError.code
+        };
+        console.error(`Answer fetch error for card ID ${cardId}:`, apiError);
         throw apiError;
     }
 }
