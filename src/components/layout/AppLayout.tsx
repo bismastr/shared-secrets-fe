@@ -11,7 +11,14 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 <main className="p-4 flex-1 overflow-y-auto">
                     {children}
                 </main>
+                <div className="w-full shadow-2xl overflow-hidden bg-transparent">
+                    <input
+                        className="w-full h-12 focus:outline-none border-2 text-gray-700 placeholder:text-gray-500 bg-white appearance-none"
+                        placeholder="Tell us your stories"
+                    />
+                </div>
             </div>
+
         </div>
     );
 };
