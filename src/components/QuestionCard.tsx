@@ -5,6 +5,8 @@ type QuestionCardProps = {
     className?: string;
 };
 
+
+
 export const QuestionCard: React.FC<QuestionCardProps> = ({ question, className = "" }) => {
     return (
         <div className={`bg-white rounded-2xl shadow-md/30 flex items-center min-h-[220px] justify-center ${className}`}>

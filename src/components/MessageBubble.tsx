@@ -1,5 +1,5 @@
 import React from "react";
-import type { VoteCount } from "../../types/chat";
+import type { VoteCount } from "../types/chat";
 
 type MessageBubbleProps = {
     text: string;

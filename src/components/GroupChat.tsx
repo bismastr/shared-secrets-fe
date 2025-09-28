@@ -1,5 +1,5 @@
 import React from "react";
-import type { Answer } from "../../types/chat";
+import type { Answer } from "../types/chat";
 import { MessageBubble } from "./MessageBubble";
 
 type GroupChatProps = {
