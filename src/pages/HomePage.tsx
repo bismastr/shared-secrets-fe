@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/layout/AppLayout";
+import { Button } from "@/components/ui/button";
 
 
 const HomePage = () => {
@@ -6,12 +7,9 @@ const HomePage = () => {
         <div>
             <AppLayout>
                 <div className="flex flex-col gap-4 items-center">
-                    <button className="p-2 bg-blue-500 text-white rounded-lg">
-                        Utarakan
-                    </button>
+                    <Button variant="default">Utarakan</Button>
                     <div>Walau tak semua tanya, datang berserta jawabnya</div>
                 </div>
-
             </AppLayout>
 
         </div>
