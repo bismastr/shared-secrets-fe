@@ -26,7 +26,7 @@ const ListCardPage = () => {
         <div>
             {cards.map(card => (
                 <div key={card.id} className="p-4 border-b">
-                    <QuestionCard question={card.question} />
+                    <QuestionCard question={card.question} questionId={card.id} />
                 </div>
             ))}
         </div>
