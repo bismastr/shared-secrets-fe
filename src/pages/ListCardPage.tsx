@@ -8,14 +8,12 @@ const ListCardPage = () => {
     const [cards, setCards] = useState<Card[]>([]);
 
     const fetchAllCards = async () => {
-
         try {
             const cards = await getAllCards();
             setCards(cards);
         } catch (error) {
             console.error('Error fetching cards:', error);
         }
-
     }
 
     useEffect(() => {

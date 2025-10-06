@@ -13,9 +13,10 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ question, questionId
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(questionId ? `/cards/${questionId}` : '/cards');
+        navigate(questionId ? `/cards/${questionId}` : '/cards', {
+            state: { question }
+        });
     }
-
 
     return (
         <div onClick={handleClick} className={`bg-white rounded-2xl shadow-md/30 flex items-center min-h-[220px] justify-center ${className}`}>

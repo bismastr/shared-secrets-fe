@@ -40,6 +40,11 @@ export interface Answer {
     voteCounts: VoteCount[];
 }
 
+export interface SubmitAnswerRequest {
+    cardId: string;
+    answerText: string;
+}
+
 apiClient.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
@@ -74,7 +79,7 @@ export const getFeaturedCards = async (): Promise<Card[]> => {
 
 export const getAnswerByCardId = async (cardId: string): Promise<Answer[]> => {
     try {
-        const response = await apiClient.get<Answer[] | ApiResponse<Answer[]>>(`/answers/${cardId}`);
+        const response = await apiClient.get<Answer[] | ApiResponse<Answer[]>>(`/answer/${cardId}`);
         return Array.isArray(response.data) ? response.data : response.data.data;
     } catch (error) {
         const axiosError = error as AxiosError;
@@ -105,3 +110,20 @@ export const getAllCards = async (): Promise<Card[]> => {
         throw apiError;
     }
 }
+
+export const submitAnswer = async (request: SubmitAnswerRequest): Promise<void> => {
+    try {
+        await apiClient.post('/answer/', request);
+    } catch (error) {
+        const axiosError = error as AxiosError;
+        const apiError: ApiError = {
+            message: 'Failed to submit answer',
+            statusCode: axiosError.response?.status,
+            error: axiosError.response?.data || axiosError.message,
+            code: axiosError.code
+        };
+        console.error('Submit answer error:', apiError);
+        throw apiError;
+    }
+}
+
