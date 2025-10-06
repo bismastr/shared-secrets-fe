@@ -1,26 +1,27 @@
+import { AppLayout } from "@/components/layout/AppLayout";
 import { CardPage } from "../pages/CardPage";
-import HomePage from "@/pages/HomePage";
+import ListCardPage from "@/pages/ListCardPage";
 import { createBrowserRouter } from "react-router-dom";
+import HomePage from "@/pages/HomePage";
 
 
 
 const routes = [
     {
         path: "/",
-        element: <HomePage />,
+        element: <AppLayout />,
         children: [
             {
                 index: true,
-                element: <CardPage />
+                element: <HomePage />
             },
             {
-                path: ":cardId",
-                children: [
-                    {
-                        index: true,
-                        element: <CardPage />
-                    }
-                ]
+                path: "cards",
+                element: <ListCardPage />
+            },
+            {
+                path: "cards/:cardId",
+                element: <CardPage />
             }
         ]
     }

@@ -1,18 +1,14 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 
-type AppLayoutProps = {
-    children: React.ReactNode;
-};
 
-export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+
+export const AppLayout: React.FC = () => {
     return (
         <div className="flex items-center justify-center w-screen h-screen bg-gray-200">
-            <div className="flex flex-col w-full max-w-[420px] h-full overflow-auto bg-white shadow-lg">
-                <main className="p-4 flex-1 overflow-y-auto">
-                    {children}
-                </main>
+            <div className="flex flex-col w-screen max-w-[420px] h-screen overflow-auto bg-white">
+                <Outlet />
             </div>
-
         </div>
     );
 };

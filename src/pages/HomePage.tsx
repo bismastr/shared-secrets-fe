@@ -1,19 +1,20 @@
-import { AppLayout } from "@/components/layout/AppLayout";
 import { QuestionCard } from "@/components/QuestionCard";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 
 const HomePage = () => {
-    return (
-        <div>
-            <AppLayout>
-                <div className="flex flex-col gap-4 items-center justify-center h-full">
-                    <QuestionCard question="UTARAKAN UTARAKAN" className=" w-full" />
-                    <Button variant="default" className="">Utarakan</Button>
-                    <div>Walau tak semua tanya, datang berserta jawabnya</div>
-                </div>
-            </AppLayout>
+    const navigate = useNavigate();
 
+    const handleRedirect = () => {
+        navigate('/cards');
+    }
+
+    return (
+        <div className="flex flex-col items-center justify-center gap-4 p-6 h-full">
+            <QuestionCard question="KAPAN TERAKHIR KAMU TERTIDUR TENANG?" className=" w-full" />
+            <Button variant="default" className="" onClick={handleRedirect}>Utarakan</Button>
+            <div>Walau tak semua tanya, datang berserta jawabnya</div>
         </div>
     );
 };

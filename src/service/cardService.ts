@@ -89,4 +89,19 @@ export const getAnswerByCardId = async (cardId: string): Promise<Answer[]> => {
     }
 }
 
-
+export const getAllCards = async (): Promise<Card[]> => {
+    try {
+        const response = await apiClient.get<Card[] | ApiResponse<Card[]>>('/cards/');
+        return Array.isArray(response.data) ? response.data : response.data.data;
+    } catch (error) {
+        const axiosError = error as AxiosError;
+        const apiError: ApiError = {
+            message: 'Failed to fetch all cards',
+            statusCode: axiosError.response?.status,
+            error: axiosError.response?.data || axiosError.message,
+            code: axiosError.code
+        };
+        console.error('All cards fetch error:', apiError);
+        throw apiError;
+    }
+}
