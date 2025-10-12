@@ -9,7 +9,6 @@ type MessageBubbleProps = {
 export const MessageBubble: React.FC<MessageBubbleProps> = ({ text, voteCounts }) => {
     return (
         <div className="relative bg-blue-500 text-white rounded-[1.25rem] px-4 py-[10px] max-w-[80%] shadow-sm">
-            {/* iMessage-style tail */}
             <div
                 className="absolute -left-[8px] bottom-[8px] w-4 h-4 overflow-hidden"
                 aria-hidden="true"

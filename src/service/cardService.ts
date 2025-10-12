@@ -113,7 +113,7 @@ export const getAllCards = async (): Promise<Card[]> => {
 
 export const submitAnswer = async (request: SubmitAnswerRequest): Promise<void> => {
     try {
-        await apiClient.post('/answer/', request);
+        await apiClient.post('/answer', request);
     } catch (error) {
         const axiosError = error as AxiosError;
         const apiError: ApiError = {
