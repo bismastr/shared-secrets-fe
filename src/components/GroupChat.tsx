@@ -7,6 +7,22 @@ type GroupChatProps = {
 };
 
 export const GroupChat: React.FC<GroupChatProps> = ({ answers }) => {
+    const [openPickerMessageId, setOpenPickerMessageId] = React.useState<string | null>(null);
+
+    const handleOpenPicker = (messageId: string) => {
+        setOpenPickerMessageId(messageId);
+    };
+
+    const handleClosePicker = () => {
+        setOpenPickerMessageId(null);
+    };
+
+    const handleReactionClick = (messageId: string, emoticon: string) => {
+        handleClosePicker();
+        // Add your reaction logic here
+        console.log(`Reacted to message ${messageId} with ${emoticon}`);
+    };
+
     if (!answers || answers.length === 0) {
         return (
             <div
@@ -17,6 +33,8 @@ export const GroupChat: React.FC<GroupChatProps> = ({ answers }) => {
             </div>
         );
     }
+
+
 
     return (
         <div className="flex flex-col gap-4 p-3">
@@ -29,8 +47,13 @@ export const GroupChat: React.FC<GroupChatProps> = ({ answers }) => {
                     role="region"
                 >
                     <MessageBubble
+                        key={answer.id}
                         text={answer.answerText}
                         voteCounts={answer.voteCounts}
+                        isPickerOpen={openPickerMessageId === answer.id}
+                        onOpenPicker={() => handleOpenPicker(answer.id)}
+                        onClosePicker={handleClosePicker}
+                        onReactionClick={(emoticon) => handleReactionClick(answer.id, emoticon)}
                     />
                 </div>
             ))}
