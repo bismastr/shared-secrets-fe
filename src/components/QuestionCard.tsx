@@ -7,8 +7,6 @@ type QuestionCardProps = {
     className?: string;
 };
 
-
-
 export const QuestionCard: React.FC<QuestionCardProps> = ({ question, questionId, className = "" }) => {
     const navigate = useNavigate();
 

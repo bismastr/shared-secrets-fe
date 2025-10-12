@@ -19,7 +19,7 @@ export const GroupChat: React.FC<GroupChatProps> = ({ answers }) => {
     }
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 p-3">
             {answers.map((answer) => (
                 <div
                     key={answer.id}
