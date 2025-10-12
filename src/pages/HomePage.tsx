@@ -1,4 +1,5 @@
 import { QuestionCard } from "@/components/QuestionCard";
+import { ReactionPopup } from "@/components/ReactionPopup";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 

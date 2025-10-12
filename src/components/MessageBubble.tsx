@@ -1,5 +1,6 @@
 import React from "react";
 import type { VoteCount } from "../types/chat";
+import { ReactionPopup } from "./ReactionPopup";
 
 type MessageBubbleProps = {
     text: string;
@@ -7,6 +8,18 @@ type MessageBubbleProps = {
 };
 
 export const MessageBubble: React.FC<MessageBubbleProps> = ({ text, voteCounts }) => {
+
+    const [isPickerOpen, setIsPickerOpen] = React.useState(false);
+
+
+    const handleOpenPicker = () => setIsPickerOpen(true);
+    const handleClosePicker = () => setIsPickerOpen(false);
+
+    const handleReactionClick = (emoticon: string) => {
+        handleClosePicker();
+        console.log(`Reacted with ${emoticon}`);
+    };
+
     return (
         <div className="relative bg-blue-500 text-white rounded-[1.25rem] px-4 py-[10px] max-w-[80%] shadow-sm">
             <div
@@ -18,12 +31,26 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ text, voteCounts }
 
             <span className="block text-[15px] font-normal leading-[22px]">{text}</span>
 
-            {voteCounts && voteCounts.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mt-1.5 justify-end">
-                    {voteCounts.map((vote) => (
-                        <ReactionBadge key={vote.emoticon} emoticon={vote.emoticon} count={vote.count} />
-                    ))}
-                </div>
+            <div className="flex flex-wrap gap-1.5 mt-1.5 justify-end">
+                {voteCounts && voteCounts.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-1.5 justify-end">
+                        {voteCounts.map((vote) => (
+                            <ReactionBadge key={vote.emoticon} emoticon={vote.emoticon} count={vote.count} />
+                        ))}
+                    </div>
+                )}
+                <button
+                    className="flex items-center justify-center text-xs bg-black/10 backdrop-blur-sm rounded-full px-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    tabIndex={0}
+                    aria-label="Open reaction picker"
+                    onClick={handleOpenPicker}
+                >
+                    <span aria-hidden="true">+</span>
+                </button>
+            </div>
+
+            {isPickerOpen && (
+                <ReactionPopup onClick={handleReactionClick} onClose={handleClosePicker} />
             )}
         </div>
     );
@@ -36,12 +63,16 @@ type ReactionBadgeProps = {
 
 const ReactionBadge: React.FC<ReactionBadgeProps> = ({ emoticon, count }) => {
     return (
-        <span
-            className="flex items-center text-xs bg-black/10 backdrop-blur-sm rounded-full px-1.5 py-0.5"
-            aria-label={`${emoticon} ${count}`}
-        >
-            <span className="mr-1">{emoticon}</span>
-            <span className="font-medium">{count}</span>
-        </span>
+        <div>
+            <span
+                className="flex items-center text-xs bg-black/10 backdrop-blur-sm rounded-full px-1.5 py-0.5"
+                aria-label={`${emoticon} ${count}`}
+            >
+                <span className="mr-1">{emoticon}</span>
+                <span className="font-medium">{count}</span>
+            </span>
+        </div>
+
+
     );
 };
