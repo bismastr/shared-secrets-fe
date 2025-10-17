@@ -45,6 +45,12 @@ export interface SubmitAnswerRequest {
     answerText: string;
 }
 
+export interface SubmitVoteRequest {
+    answerId: string;
+    emoji: string;
+    voteType: 'DOWNVOTE' | 'UPVOTE';
+}
+
 apiClient.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
@@ -127,3 +133,18 @@ export const submitAnswer = async (request: SubmitAnswerRequest): Promise<void> 
     }
 }
 
+export const submitVote = async (request: SubmitVoteRequest): Promise<void> => {
+    try {
+        await apiClient.post('/vote', request);
+    } catch (error) {
+        const axiosError = error as AxiosError;
+        const apiError: ApiError = {
+            message: 'Failed to submit vote',
+            statusCode: axiosError.response?.status,
+            error: axiosError.response?.data || axiosError.message,
+            code: axiosError.code
+        };
+        console.error('Submit vote error:', apiError);
+        throw apiError;
+    }
+};

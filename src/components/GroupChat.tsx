@@ -4,23 +4,24 @@ import { MessageBubble } from "./MessageBubble";
 
 type GroupChatProps = {
     answers: Answer[];
+    onVote: (answerId: string, emoticon: string) => void;
 };
 
-export const GroupChat: React.FC<GroupChatProps> = ({ answers }) => {
-    const [openPickerMessageId, setOpenPickerMessageId] = React.useState<string | null>(null);
+export const GroupChat: React.FC<GroupChatProps> = ({ answers, onVote }) => {
+    const [openPickerAnswerId, setOpenPickerAnswerId] = React.useState<string | null>(null);
 
-    const handleOpenPicker = (messageId: string) => {
-        setOpenPickerMessageId(messageId);
+    const handleOpenPicker = (answerId: string) => {
+        setOpenPickerAnswerId(answerId);
     };
 
     const handleClosePicker = () => {
-        setOpenPickerMessageId(null);
+        setOpenPickerAnswerId(null);
     };
 
-    const handleReactionClick = (messageId: string, emoticon: string) => {
+    const handleReactionClick = (answerId: string, emoticon: string) => {
         handleClosePicker();
-        // Add your reaction logic here
-        console.log(`Reacted to message ${messageId} with ${emoticon}`);
+        onVote(answerId, emoticon);
+        console.log(`Voted with ${emoticon} on answer ${answerId}`);
     };
 
     if (!answers || answers.length === 0) {
@@ -33,8 +34,6 @@ export const GroupChat: React.FC<GroupChatProps> = ({ answers }) => {
             </div>
         );
     }
-
-
 
     return (
         <div className="flex flex-col gap-4 p-3">
@@ -50,7 +49,7 @@ export const GroupChat: React.FC<GroupChatProps> = ({ answers }) => {
                         key={answer.id}
                         text={answer.answerText}
                         voteCounts={answer.voteCounts}
-                        isPickerOpen={openPickerMessageId === answer.id}
+                        isPickerOpen={openPickerAnswerId === answer.id}
                         onOpenPicker={() => handleOpenPicker(answer.id)}
                         onClosePicker={handleClosePicker}
                         onReactionClick={(emoticon) => handleReactionClick(answer.id, emoticon)}

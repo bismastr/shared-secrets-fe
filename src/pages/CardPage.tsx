@@ -1,7 +1,7 @@
 import { AnswerForm } from "@/components/AnswerForm";
 import { GroupChat } from "@/components/GroupChat";
 import { QuestionCard } from "@/components/QuestionCard";
-import { getAnswerByCardId, submitAnswer, type SubmitAnswerRequest } from "@/service/cardService";
+import { getAnswerByCardId, submitAnswer, submitVote, type SubmitAnswerRequest } from "@/service/cardService";
 import type { Answer } from "@/types/chat";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
@@ -52,7 +52,35 @@ export const CardPage: React.FC = () => {
             console.error("Error submitting answer:", error);
             setInputValue("");
         }
+    };
 
+    const handleVote = (answerId: string, emoticon: string) => {
+        console.log(`Handling vote for answerId: ${answerId} with emoticon: ${emoticon}`);
+        setAnswers((prevAnswers) =>
+            prevAnswers.map((answer) => {
+                if (answer.id !== answerId) return answer;
+                const existingVote = answer.voteCounts.find(vc => vc.emoticon === emoticon);
+
+                let updatedVoteCounts;
+                if (existingVote) {
+                    updatedVoteCounts = answer.voteCounts.map(vc =>
+                        vc.emoticon === emoticon
+                            ? { ...vc, count: vc.count + 1 }
+                            : vc
+                    );
+                } else {
+                    updatedVoteCounts = [...answer.voteCounts, { emoticon, count: 1 }];
+                }
+
+                return {
+                    ...answer,
+                    voteCounts: updatedVoteCounts,
+                };
+            })
+        );
+        if (cardId) {
+            submitVote({ answerId, emoji: emoticon, voteType: "UPVOTE" });
+        }
     };
 
     useEffect(() => {
@@ -63,7 +91,7 @@ export const CardPage: React.FC = () => {
         <div className="relative">
             <div className="pb-20">
                 <QuestionCard question={question} className="mb-4" />
-                <GroupChat answers={answers} />
+                <GroupChat answers={answers} onVote={handleVote} />
                 <AnswerForm
                     inputValue={inputValue}
                     onInputChange={(event) => setInputValue(event.target.value)}
