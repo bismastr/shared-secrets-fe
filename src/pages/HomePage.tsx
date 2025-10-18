@@ -28,7 +28,7 @@ const HomePage = () => {
                 {/* Featured Question Card */}
                 <div className="w-full max-w-3xl">
                     <QuestionCard
-                        question="KAPAN TERAKHIR KAMU TERTIDUR TENANG?"
+                        question="Apa makna 'bahagia' bagimu?"
                         className="w-full"
                     />
                 </div>
