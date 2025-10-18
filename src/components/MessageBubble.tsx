@@ -1,6 +1,7 @@
 import React from "react";
 import type { VoteCount } from "../types/chat";
 import { ReactionPopup } from "./ReactionPopup";
+import { ReactionBadge } from "./ReactionBadge";
 
 type MessageBubbleProps = {
     text: string;
@@ -33,16 +34,16 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
             <div className="flex flex-wrap gap-1.5 mt-1.5 justify-end">
                 {voteCounts && voteCounts.length > 0 &&
                     voteCounts.map((vote) => (
-                        <ReactionBadge key={vote.emoticon} emoticon={vote.emoticon} count={vote.count} />
+                        <ReactionBadge key={vote.emoticon} emoticon={vote.emoticon} count={vote.count} onReactionClick={onReactionClick} />
                     ))
                 }
                 <button
-                    className="flex items-center justify-center text-xs bg-black/10 backdrop-blur-sm rounded-full px-1.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="flex items-center justify-center text-xs bg-black/10 backdrop-blur-sm rounded-full px-1.5 focus:outline-none focus:ring-2 hover:bg-blue-300 focus:ring-blue-400 cursor-pointer"
                     tabIndex={0}
                     aria-label="Open reaction picker"
                     onClick={onOpenPicker}
                 >
-                    <span aria-hidden="true">+</span>
+                    <div aria-hidden="true">+</div>
                 </button>
             </div>
 
@@ -55,25 +56,6 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                     <ReactionPopup onClick={onReactionClick} onClose={onClosePicker} />
                 </div>
             )}
-        </div>
-    );
-};
-
-type ReactionBadgeProps = {
-    emoticon: string;
-    count: number;
-};
-
-const ReactionBadge: React.FC<ReactionBadgeProps> = ({ emoticon, count }) => {
-    return (
-        <div>
-            <span
-                className="flex items-center text-xs bg-black/10 backdrop-blur-sm rounded-full px-1.5 py-0.5"
-                aria-label={`${emoticon} ${count}`}
-            >
-                <span className="mr-1">{emoticon}</span>
-                <span className="font-medium">{count}</span>
-            </span>
         </div>
     );
 };
