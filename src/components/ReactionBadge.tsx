@@ -5,19 +5,25 @@ type ReactionBadgeProps = {
 };
 
 export const ReactionBadge: React.FC<ReactionBadgeProps> = ({ emoticon, count, onReactionClick }) => {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onReactionClick(emoticon);
+        }
+    };
 
     return (
         <div
             className="cursor-pointer"
             role="button"
             onClick={() => onReactionClick(emoticon)}
-            tabIndex={0}>
-            <div
-                className="flex items-center text-xs bg-black/10 backdrop-blur-sm rounded-full px-1.5 py-0.5 hover:bg-blue-300 active:bg-blue-400"
-                aria-label={`${emoticon} ${count}`}
-            >
-                <div className="mr-1">{emoticon}</div>
-                <div className="font-medium">{count}</div>
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            aria-label={`React with ${emoticon}, ${count} reactions`}
+        >
+            <div className="flex items-center gap-1 text-xs bg-red-50 border border-red-200 rounded-full px-2 py-0.5 hover:bg-red-100 active:bg-red-150 transition-all duration-200">
+                <span className="text-sm">{emoticon}</span>
+                <span className="font-medium text-red-500 text-[11px]">{count}</span>
             </div>
         </div>
     );
